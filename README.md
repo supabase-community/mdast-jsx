@@ -30,7 +30,7 @@ Bumped to `v2.0.0`.
 
 Up until now markdown has always been a source format - something you write, not something you generate. But AI is changing that - agents often prefer markdown because it's terse and token efficient, so we increasingly want to generate it as the final output format.
 
-When markdown is static, JSX doesn't add much value (it's actually much more verbose). If you're hand-writing prose, just write a `.md` file. JSX becomes attractive when the markdown is dynamic, built from data with loops and conditions. A common scenario is an existing data-driven React page that you want to render as markdown (e.g. a dynamic list of clients pulled from a DB). You want the same component logic, but produced as markdown instead of DOM.
+JSX doesn't add much value when markdown is static (it's actually much more verbose). If you're hand-writing prose, just write a `.md` file. JSX becomes attractive when the markdown is dynamic, built from data with loops and conditions. A common scenario is an existing data-driven React page that you want to render as markdown (e.g. a dynamic list of clients pulled from a DB). You want the same component logic, but produced as markdown instead of DOM.
 
 ### Why not string concatenation?
 
