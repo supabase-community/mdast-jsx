@@ -1,0 +1,62 @@
+{
+  "name": "mdast-jsx",
+  "version": "0.0.0",
+  "description": "Generate markdown using JSX",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supabase-community/mdast-jsx.git"
+  },
+  "homepage": "https://github.com/supabase-community/mdast-jsx#readme",
+  "bugs": {
+    "url": "https://github.com/supabase-community/mdast-jsx/issues"
+  },
+  "keywords": [
+    "mdast",
+    "jsx",
+    "jsx-runtime",
+    "markdown",
+    "unified",
+    "remark",
+    "ast"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./jsx-runtime": {
+      "types": "./dist/jsx-runtime.d.ts",
+      "import": "./dist/jsx-runtime.js"
+    },
+    "./jsx-dev-runtime": {
+      "types": "./dist/jsx-dev-runtime.d.ts",
+      "import": "./dist/jsx-dev-runtime.js"
+    }
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "@types/mdast": "^3.0.0"
+  },
+  "devDependencies": {
+    "mdast-util-gfm": "^2.0.2",
+    "mdast-util-to-markdown": "^1.5.0",
+    "tsdown": "^0.21.1",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^4.0.18"
+  },
+  "packageManager": "pnpm@10.30.3+sha512.c961d1e0a2d8e354ecaa5166b822516668b7f44cb5bd95122d590dd81922f606f5473b6d23ec4a5be05e7fcd18e8488d47d978bbe981872f1145d06e9a740017"
+}
