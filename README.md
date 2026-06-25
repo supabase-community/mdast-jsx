@@ -28,13 +28,13 @@ Bumped to `v2.0.0`.
 
 ## Why?
 
-Up until now markdown has been a source format - something you write, not something you generate. But AI is changing that - agents often prefer markdown because it's terse and token efficient, so we increasingly want to generate it as the final output for LLMs to consume.
+Up until now markdown has always been a source format - something you write, not something you generate. But AI is changing that - agents often prefer markdown because it's terse and token efficient, so we increasingly want to generate it as the final output format.
 
-None of this matters when the markdown is static - if you're hand-writing prose, just write a `.md` file. JSX becomes attractive when the markdown is dynamic, built from data with loops and conditions. A common scenario is an existing data-driven React page that you want to render as markdown (e.g. a dynamic list of clients pulled from a DB) - the same component logic, just producing markdown instead of DOM.
+When markdown is static, JSX doesn't add much value (it's actually much more verbose). If you're hand-writing prose, just write a `.md` file. JSX becomes attractive when the markdown is dynamic, built from data with loops and conditions. A common scenario is an existing data-driven React page that you want to render as markdown (e.g. a dynamic list of clients pulled from a DB). You want the same component logic, but produced as markdown instead of DOM.
 
 ### Why not string concatenation?
 
-You could dynamically build markdown using string concatenation, but you end up hand-managing markdown's whitespace and escaping rules, which is easy to get subtly wrong. More importantly, you lose type safety - a malformed structure shows up as broken output, not as an error while you're writing it.
+You could dynamically build markdown using string concatenation, but you end up hand-managing markdown's whitespace and escaping rules, which is harder to maintain and easy to get subtly wrong. More importantly, you lose type safety - a malformed structure shows up as broken output, not as an error while you're writing it.
 
 ### Why not object notation?
 
