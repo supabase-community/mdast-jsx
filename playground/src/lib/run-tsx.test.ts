@@ -53,11 +53,20 @@ describe('runTsx', () => {
   it('returns a runtime error when code throws', () => {
     const r = run(`throw new Error('boom'); export default ''`)
     expect(r.ok).toBe(false)
-    if (!r.ok) expect(r.error).toContain('boom')
+    if (!r.ok) {
+      expect(r.error).toMatch(/^Runtime error:/)
+      expect(r.error).toContain('boom')
+    }
   })
 
   it('blocks disallowed imports', () => {
     const r = run(`import fs from 'node:fs'; export default ''`)
+    expect(r.ok).toBe(false)
+    if (!r.ok) expect(r.error).toContain('node:fs')
+  })
+
+  it('blocks disallowed static re-exports', () => {
+    const r = run(`export { existsSync } from 'node:fs'`)
     expect(r.ok).toBe(false)
     if (!r.ok) expect(r.error).toContain('node:fs')
   })

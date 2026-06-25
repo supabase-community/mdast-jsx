@@ -20,12 +20,13 @@ function vmErrorMessage(dumped: unknown): string {
   return String(dumped)
 }
 
-/** Extract all static import specifiers from source code. */
+/** Extract all static import/re-export specifiers from source code. */
 function extractImportSpecifiers(source: string): string[] {
   const specifiers: string[] = []
-  // Match: import ... from 'specifier' or import ... from "specifier"
-  // Also: import 'specifier' (side-effect imports)
-  const re = /\bimport\s+(?:[^'"]*?\s+from\s+)?['"]([^'"]+)['"]/g
+  // Match: import ... from 'specifier', import 'specifier' (side-effect), and
+  // static re-exports: export { x } from 'specifier'
+  // Dynamic import() is caught by the VM loader at runtime, not here.
+  const re = /\b(?:import|export)\s+(?:[^'"]*?\s+from\s+)?['"]([^'"]+)['"]/g
   let m: RegExpExecArray | null
   while ((m = re.exec(source)) !== null) {
     specifiers.push(m[1])
@@ -76,7 +77,7 @@ export function runTsx(source: string, deps: RunTsxDeps): RunResult {
     if (result.error) {
       const dumped = ctx.dump(result.error)
       result.error.dispose()
-      return { ok: false, error: vmErrorMessage(dumped) }
+      return { ok: false, error: `Runtime error: ${vmErrorMessage(dumped)}` }
     }
     const ns = result.value
     const def = ctx.getProp(ns, 'default')
