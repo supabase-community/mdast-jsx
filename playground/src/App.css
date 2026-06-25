@@ -13,5 +13,5 @@ body { font-family: system-ui, sans-serif; }
 .pane-header button.active { background: #8883; }
 .output { overflow: auto; }
 .output .md, .output .error { margin: 0; padding: 1rem; white-space: pre-wrap; font-family: ui-monospace, monospace; }
-.output .error { color: #e55; }
+.output .error { color: #e55; border-bottom: 1px solid #e554; background: #e5500a0d; }
 .output .preview { padding: 1rem; }

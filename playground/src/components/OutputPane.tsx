@@ -17,9 +17,8 @@ export function OutputPane({ md, error }: { md: string; error: string | null }) 
           Preview
         </button>
       </header>
-      {error ? (
-        <pre className="error">{error}</pre>
-      ) : view === 'md' ? (
+      {error && <pre className="error">{error}</pre>}
+      {view === 'md' ? (
         <pre className="md">{md}</pre>
       ) : (
         <div className="preview">
