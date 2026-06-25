@@ -10,7 +10,10 @@ async function bundlePackage(spec: string): Promise<string> {
     stdin: { contents: `export * from '${spec}'`, resolveDir: here, loader: 'js' },
     bundle: true,
     format: 'esm',
-    platform: 'browser',
+    // Use 'neutral' so packages that have browser-conditional exports (e.g.
+    // decode-named-character-reference) resolve to their non-DOM variant.
+    // The quickjs VM has no DOM globals, so the browser bundle would crash.
+    platform: 'neutral',
     write: false,
     legalComments: 'none',
   })
