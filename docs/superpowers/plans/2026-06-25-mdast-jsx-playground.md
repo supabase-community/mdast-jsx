@@ -13,6 +13,7 @@
 - **Never auto-commit.** Per the repo owner's standing rule, do NOT run `git commit`/`git push`. Each task ends by *staging* changes (`git add`); the user commits. Treat the "Stage" step as the task checkpoint.
 - **Lib stays at root.** Do NOT move `src/`/`package.json` or touch `release-please-config.json`, `.release-please-manifest.json`, or `.github/workflows/release.yml`.
 - **pnpm only.** Node packages prefixed `node:` in source. Prefer `??` over `||`. Concise JSDoc on exported functions.
+- **Never weaken `minimumReleaseAge`.** Do NOT add `minimumReleaseAgeExclude` or lower/remove the age gate in `pnpm-workspace.yaml` - it's a supply-chain defense. If an install hits the gate, STOP and report it; never work around it. (Committed-lockfile and `--frozen-lockfile` installs do not trigger the gate, so this only arises on fresh re-resolution.)
 - **Version alignment:** playground pins `mdast-util-to-markdown@^1`, `mdast-util-gfm@^2` (match the lib's devDeps); `@types/mdast@^3` resolves through hoisting (the version the lib's `.d.ts` was built against).
 - **ESM end-to-end.** No CJS substrate; quickjs runs ESM natively in Node and browser.
 - **Sandbox by default.** User code only ever runs inside the quickjs VM, never via `eval`/`new Function`/blob-import on the host.
