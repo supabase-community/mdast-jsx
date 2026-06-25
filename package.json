@@ -1,6 +1,6 @@
 {
   "name": "mdast-jsx",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Generate markdown using JSX",
   "type": "module",
   "license": "MIT",
