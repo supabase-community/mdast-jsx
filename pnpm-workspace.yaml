@@ -1,8 +1,4 @@
 minimumReleaseAge: 4320
-minimumReleaseAgeExclude:
-  - "@napi-rs/wasm-runtime"
-  - "@tybys/wasm-util"
-  - "vite"
 onlyBuiltDependencies:
   - esbuild
 packages:
