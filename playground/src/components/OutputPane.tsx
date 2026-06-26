@@ -54,7 +54,7 @@ export function OutputPane({
         <div className="md" dangerouslySetInnerHTML={{ __html: mdHtml }} />
       </TabsContent>
       <TabsContent value="preview" className="min-h-0 overflow-auto">
-        <div className="preview">
+        <div className="prose prose-sm dark:prose-invert max-w-none p-4">
           <Markdown remarkPlugins={[remarkGfm]}>{md}</Markdown>
         </div>
       </TabsContent>
