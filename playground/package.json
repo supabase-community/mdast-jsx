@@ -20,7 +20,9 @@
     "react-markdown": "^9.0.1",
     "remark-gfm": "^4.0.0",
     "monaco-editor": "^0.52.0",
-    "@monaco-editor/react": "^4.6.0"
+    "@monaco-editor/react": "^4.6.0",
+    "shiki": "4.2.0",
+    "@shikijs/monaco": "4.2.0"
   },
   "devDependencies": {
     "esbuild": "^0.24.0",
