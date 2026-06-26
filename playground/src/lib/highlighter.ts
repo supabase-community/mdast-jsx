@@ -2,7 +2,7 @@ import { createHighlighterCore } from 'shiki/core'
 import { createOnigurumaEngine } from 'shiki/engine/oniguruma'
 import { bundledLanguages } from 'shiki'
 import { fromMarkdown } from 'mdast-util-from-markdown'
-import type { Root, RootContent } from 'mdast'
+import { visit } from 'unist-util-visit'
 import tsxGrammar from 'shiki/langs/tsx.mjs'
 import markdownGrammar from 'shiki/langs/markdown.mjs'
 import darkPlus from 'shiki/themes/dark-plus.mjs'
@@ -27,11 +27,9 @@ export const highlighterPromise = (async () => {
 /** Collect the languages of fenced code blocks by parsing the markdown to mdast. */
 function fencedLanguages(md: string): Set<string> {
   const langs = new Set<string>()
-  const visit = (node: Root | RootContent) => {
-    if (node.type === 'code' && node.lang) langs.add(node.lang.toLowerCase())
-    if ('children' in node) for (const child of node.children) visit(child)
-  }
-  visit(fromMarkdown(md))
+  visit(fromMarkdown(md), 'code', (node) => {
+    if (node.lang) langs.add(node.lang.toLowerCase())
+  })
   return langs
 }
 

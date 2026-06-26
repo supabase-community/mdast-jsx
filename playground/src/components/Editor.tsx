@@ -27,6 +27,9 @@ async function setupMonaco(): Promise<Monaco> {
       strict: true,
       allowNonTsExtensions: true,
       skipLibCheck: true,
+      // Code runs in the quickjs sandbox (ES only) - drop DOM/web libs so
+      // intellisense doesn't offer fetch/document/console/etc. that don't exist there.
+      lib: ['esnext'],
     })
     for (const { filePath, content } of typeDefs) ts.addExtraLib(content, filePath)
     shikiToMonaco(await highlighterPromise, monaco)

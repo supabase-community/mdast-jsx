@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@napi-rs/wasm-runtime': 1.1.5
-
 importers:
 
   .:
@@ -36,7 +33,7 @@ importers:
 
   playground:
     dependencies:
-      '@jitl/quickjs-singlefile-browser-release-sync':
+      '@jitl/quickjs-wasmfile-release-sync':
         specifier: ^0.31.0
         version: 0.31.0
       '@monaco-editor/react':
@@ -78,7 +75,7 @@ importers:
       monaco-editor:
         specifier: ^0.52.0
         version: 0.52.2
-      quickjs-emscripten:
+      quickjs-emscripten-core:
         specifier: ^0.31.0
         version: 0.31.0
       react:
@@ -105,6 +102,9 @@ importers:
       tw-animate-css:
         specifier: ^1.4.0
         version: 1.4.0
+      unist-util-visit:
+        specifier: ^4.1.2
+        version: 4.1.2
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.3.1
@@ -127,6 +127,9 @@ importers:
       esbuild:
         specifier: ^0.24.0
         version: 0.24.2
+      quickjs-emscripten:
+        specifier: ^0.31.0
+        version: 0.31.0
       tailwindcss:
         specifier: ^4.3.1
         version: 4.3.1
@@ -756,9 +759,6 @@ packages:
 
   '@jitl/quickjs-ffi-types@0.31.0':
     resolution: {integrity: sha512-1yrgvXlmXH2oNj3eFTrkwacGJbmM0crwipA3ohCrjv52gBeDaD7PsTvFYinlAnqU8iPME3LGP437yk05a2oejw==}
-
-  '@jitl/quickjs-singlefile-browser-release-sync@0.31.0':
-    resolution: {integrity: sha512-JctBiLmRpxEp83gJWhDcBuFqm5X7T683OLmncN9g0chAHkC8+y5cJmgknaAk5Rb/ANDR3pXMMnGdnGXDdysfBQ==}
 
   '@jitl/quickjs-wasmfile-debug-asyncify@0.31.0':
     resolution: {integrity: sha512-YkdzQdr1uaftFhgEnTRjTTZHk2SFZdpWO7XhOmRVbi6CEVsH9g5oNF8Ta1q3OuSJHRwwT8YsuR1YzEiEIJEk6w==}
@@ -3221,10 +3221,6 @@ snapshots:
   '@floating-ui/utils@0.2.11': {}
 
   '@jitl/quickjs-ffi-types@0.31.0': {}
-
-  '@jitl/quickjs-singlefile-browser-release-sync@0.31.0':
-    dependencies:
-      '@jitl/quickjs-ffi-types': 0.31.0
 
   '@jitl/quickjs-wasmfile-debug-asyncify@0.31.0':
     dependencies:

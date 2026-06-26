@@ -1,6 +1,5 @@
 import { transform } from 'sucrase'
-import { shouldInterruptAfterDeadline } from 'quickjs-emscripten'
-import type { QuickJSWASMModule } from 'quickjs-emscripten'
+import type { QuickJSWASMModule } from 'quickjs-emscripten-core'
 
 export interface RunTsxDeps {
   QuickJS: QuickJSWASMModule
@@ -44,7 +43,8 @@ export function runTsx(source: string, deps: RunTsxDeps): RunResult {
   const runtime = deps.QuickJS.newRuntime()
   runtime.setMemoryLimit(64 * 1024 * 1024)
   runtime.setMaxStackSize(1024 * 1024)
-  runtime.setInterruptHandler(shouldInterruptAfterDeadline(Date.now() + (deps.timeoutMs ?? 1000)))
+  const deadline = Date.now() + (deps.timeoutMs ?? 1000)
+  runtime.setInterruptHandler(() => Date.now() > deadline)
   runtime.setModuleLoader((name) => {
     const src = deps.vmModules[name]
     if (src === undefined) throw new Error(`Cannot import "${name}" in the playground`)
