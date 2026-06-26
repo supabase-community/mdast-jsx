@@ -1,0 +1,72 @@
+html, body, #root { height: 100%; margin: 0; }
+body { font-family: system-ui, sans-serif; }
+
+/* Theme tokens - default dark (VS Code Dark+), overridden for light below.
+   The panes match Shiki's editor background, so these are kept separate from
+   shadcn's tokens for now (a full migration to shadcn tokens is a follow-up). */
+.app {
+  --bg: #1e1e1e;
+  --fg: #d4d4d4;
+  --chrome: #252526;
+  --border: #3c3c3c;
+  color-scheme: dark;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+}
+.app[data-theme='light'] {
+  --bg: #ffffff;
+  --fg: #1f1f1f;
+  --chrome: #f3f3f3;
+  --border: #e0e0e0;
+  color-scheme: light;
+}
+
+.toolbar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: var(--chrome);
+  border-bottom: 1px solid var(--border);
+}
+.toolbar-spacer { flex: 1; }
+
+.panes { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: 0; }
+.pane { min-width: 0; min-height: 0; display: flex; flex-direction: column; border-left: 1px solid var(--border); }
+.pane:first-child { border-left: none; }
+
+.pane-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  background: var(--chrome);
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-loading { padding: 1rem; opacity: 0.6; font-family: ui-monospace, monospace; }
+
+.output { overflow: hidden; background: var(--bg); }
+.output .error {
+  margin: 0;
+  padding: 1rem;
+  white-space: pre-wrap;
+  font-family: ui-monospace, monospace;
+  color: #f48771;
+  border-bottom: 1px solid var(--border);
+  background: #f4877114;
+}
+/* The raw-markdown tab is Shiki HTML (dangerouslySetInnerHTML), so it's styled
+   here rather than with utilities. The preview tab uses Tailwind `prose`. */
+.output .md pre.shiki {
+  margin: 0;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}

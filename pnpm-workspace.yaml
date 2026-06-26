@@ -1,1 +1,5 @@
 minimumReleaseAge: 4320
+onlyBuiltDependencies:
+  - esbuild
+packages:
+  - playground

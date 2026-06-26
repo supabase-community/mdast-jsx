@@ -1,0 +1,16 @@
+{
+  "comment": "Type-checks the example .tsx files against mdast-jsx (dogfooding). They are loaded into the playground as raw strings via ?raw, not compiled by the app build.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "mdast-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": []
+  },
+  "include": ["."]
+}
