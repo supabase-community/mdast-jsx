@@ -1,22 +1,10 @@
 import { useEffect, useState } from 'react'
 import MonacoEditor, { loader, type Monaco } from '@monaco-editor/react'
 import typeDefs from 'virtual:mdast-type-defs'
-import { bundledLanguages, createHighlighter } from 'shiki'
 import { shikiToMonaco } from '@shikijs/monaco'
+import { highlighterPromise } from '@/lib/highlighter'
 
 export type EditorTheme = 'dark-plus' | 'light-plus'
-
-/**
- * Highlighter built once and reused. We load the `tsx` TextMate grammar but
- * register it under the id `typescript`, so Monaco's `typescript` model (which
- * the TS language service needs for diagnostics) is colored with the tsx grammar
- * - i.e. JSX, including lowercase intrinsic tags, highlights exactly like VS Code.
- */
-const highlighterPromise = (async () => {
-  const tsx = structuredClone((await bundledLanguages.tsx()).default) as { name: string }[]
-  tsx[0].name = 'typescript'
-  return createHighlighter({ themes: ['dark-plus', 'light-plus'], langs: [tsx] })
-})()
 
 let wired = false
 /**

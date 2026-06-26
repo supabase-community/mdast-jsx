@@ -20,34 +20,14 @@ function vmErrorMessage(dumped: unknown): string {
   return String(dumped)
 }
 
-/** Extract all static import/re-export specifiers from source code. */
-function extractImportSpecifiers(source: string): string[] {
-  const specifiers: string[] = []
-  // Match: import ... from 'specifier', import 'specifier' (side-effect), and
-  // static re-exports: export { x } from 'specifier'
-  // Dynamic import() is caught by the VM loader at runtime, not here.
-  const re = /\b(?:import|export)\s+(?:[^'"]*?\s+from\s+)?['"]([^'"]+)['"]/g
-  let m: RegExpExecArray | null
-  while ((m = re.exec(source)) !== null) {
-    specifiers.push(m[1])
-  }
-  return specifiers
-}
-
 /**
  * Compile TSX to ESM (Sucrase, automatic runtime -> mdast-jsx), run it inside a
  * sandboxed quickjs VM whose module loader serves the injected mdast modules, and
- * return the markdown string the module default-exports.
+ * return the markdown string the module default-exports. The module loader is the
+ * import allowlist: any specifier it isn't given throws, so user code can only ever
+ * reach the modules we inject.
  */
 export function runTsx(source: string, deps: RunTsxDeps): RunResult {
-  // Validate imports against allowlist before Sucrase can strip unused ones
-  const specifiers = extractImportSpecifiers(source)
-  for (const spec of specifiers) {
-    if (!(spec in deps.vmModules)) {
-      return { ok: false, error: `Cannot import "${spec}" in the playground` }
-    }
-  }
-
   let code: string
   try {
     code = transform(source, {

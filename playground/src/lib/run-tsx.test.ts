@@ -59,8 +59,9 @@ describe('runTsx', () => {
     }
   })
 
-  it('blocks disallowed imports', () => {
-    const r = run(`import fs from 'node:fs'; export default ''`)
+  it('blocks disallowed imports at the VM module loader', () => {
+    // Side-effect import survives Sucrase and reaches the loader, which rejects it.
+    const r = run(`import 'node:fs'\nexport default ''`)
     expect(r.ok).toBe(false)
     if (!r.ok) expect(r.error).toContain('node:fs')
   })
@@ -69,5 +70,15 @@ describe('runTsx', () => {
     const r = run(`export { existsSync } from 'node:fs'`)
     expect(r.ok).toBe(false)
     if (!r.ok) expect(r.error).toContain('node:fs')
+  })
+
+  it('allows the markdown parser (mdast-util-from-markdown) in the VM', () => {
+    const r = run(`
+      import { fromMarkdown } from 'mdast-util-from-markdown'
+      const tree = fromMarkdown('# Hi')
+      export default toMarkdown(tree)
+    `)
+    expect(r.ok).toBe(true)
+    if (r.ok) expect(r.md).toBe('# Hi\n')
   })
 })

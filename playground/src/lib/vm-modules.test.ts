@@ -7,10 +7,11 @@ describe('buildVmModules', () => {
     mods = await buildVmModules()
   })
 
-  it('bundles all three modules as non-empty ESM', () => {
+  it('bundles the VM modules as non-empty ESM', () => {
     expect(mods['mdast-jsx/jsx-runtime']).toContain('export')
     expect(mods['mdast-util-to-markdown'].length).toBeGreaterThan(1000)
     expect(mods['mdast-util-gfm'].length).toBeGreaterThan(1000)
+    expect(mods['mdast-util-from-markdown'].length).toBeGreaterThan(1000)
   })
 
   it('aliases bare mdast-jsx to the runtime', () => {

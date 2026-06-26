@@ -21,20 +21,23 @@ async function bundlePackage(spec: string): Promise<string> {
 }
 
 /**
- * Pre-bundle the pure-JS modules the quickjs VM needs: the mdast-jsx runtime and
- * the two markdown serializers. Each bundle is self-contained so the VM's module
- * loader can resolve the bare specifiers user code imports.
+ * Pre-bundle the pure-JS modules the quickjs VM can import: the mdast-jsx runtime,
+ * the two markdown serializers, and the markdown parser (so user code can round-trip
+ * markdown -> mdast). Each bundle is self-contained so the VM's module loader can
+ * resolve the bare specifiers user code imports.
  */
 export async function buildVmModules(): Promise<Record<string, string>> {
-  const [jsxRuntime, toMarkdown, gfm] = await Promise.all([
+  const [jsxRuntime, toMarkdown, gfm, fromMarkdown] = await Promise.all([
     bundlePackage('mdast-jsx/jsx-runtime'),
     bundlePackage('mdast-util-to-markdown'),
     bundlePackage('mdast-util-gfm'),
+    bundlePackage('mdast-util-from-markdown'),
   ])
   return {
     'mdast-jsx/jsx-runtime': jsxRuntime,
     'mdast-jsx': jsxRuntime,
     'mdast-util-to-markdown': toMarkdown,
     'mdast-util-gfm': gfm,
+    'mdast-util-from-markdown': fromMarkdown,
   }
 }

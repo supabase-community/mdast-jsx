@@ -29,22 +29,7 @@ body { font-family: system-ui, sans-serif; }
   background: var(--chrome);
   border-bottom: 1px solid var(--border);
 }
-.toolbar .theme-toggle {
-  margin-left: auto;
-  background: transparent;
-  color: inherit;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.2rem 0.7rem;
-  cursor: pointer;
-}
-.toolbar select {
-  background: var(--bg);
-  color: inherit;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.15rem 0.4rem;
-}
+.toolbar-spacer { flex: 1; }
 
 .panes { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: 0; }
 .pane { min-width: 0; min-height: 0; display: flex; flex-direction: column; border-left: 1px solid var(--border); }
@@ -52,28 +37,72 @@ body { font-family: system-ui, sans-serif; }
 
 .pane-header {
   display: flex;
-  gap: 0.25rem;
-  padding: 0.25rem 0.5rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
   background: var(--chrome);
   border-bottom: 1px solid var(--border);
 }
-.pane-header button {
-  background: transparent;
-  color: inherit;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.15rem 0.6rem;
-  cursor: pointer;
-}
-.pane-header button.active { background: var(--border); }
 
 .editor-loading { padding: 1rem; opacity: 0.6; font-family: ui-monospace, monospace; }
 
-.output { overflow: auto; background: var(--bg); }
-.output .md, .output .error { margin: 0; padding: 1rem; white-space: pre-wrap; font-family: ui-monospace, monospace; }
+.output { overflow: hidden; background: var(--bg); }
+.output .error { margin: 0; padding: 1rem; white-space: pre-wrap; font-family: ui-monospace, monospace; }
 .output .error { color: #f48771; border-bottom: 1px solid var(--border); background: #f4877114; }
-.output .preview { padding: 0 1rem; }
-.output .preview a { color: #4ea1ff; }
-.output .preview code { font-family: ui-monospace, monospace; }
-.output .preview table { border-collapse: collapse; }
-.output .preview th, .output .preview td { border: 1px solid var(--border); padding: 0.25rem 0.5rem; }
+.output .md pre.shiki {
+  margin: 0;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+/* Restore markdown element styling in the preview (Tailwind Preflight resets it). */
+.output .preview { padding: 0 1rem 1rem; line-height: 1.6; }
+.output .preview h1,
+.output .preview h2,
+.output .preview h3,
+.output .preview h4,
+.output .preview h5,
+.output .preview h6 { font-weight: 600; line-height: 1.25; margin: 1.2em 0 0.5em; }
+.output .preview h1 { font-size: 1.7em; }
+.output .preview h2 { font-size: 1.4em; padding-bottom: 0.2em; border-bottom: 1px solid var(--border); }
+.output .preview h3 { font-size: 1.2em; }
+.output .preview h4 { font-size: 1.05em; }
+.output .preview p { margin: 0.7em 0; }
+.output .preview ul { list-style: disc; padding-left: 1.5em; margin: 0.7em 0; }
+.output .preview ol { list-style: decimal; padding-left: 1.5em; margin: 0.7em 0; }
+.output .preview li { margin: 0.25em 0; }
+.output .preview li > ul,
+.output .preview li > ol { margin: 0.25em 0; }
+.output .preview a { color: #4ea1ff; text-decoration: underline; }
+.output .preview strong { font-weight: 600; }
+.output .preview em { font-style: italic; }
+.output .preview code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+  background: color-mix(in srgb, var(--fg) 12%, transparent);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+.output .preview pre {
+  background: color-mix(in srgb, var(--fg) 8%, transparent);
+  padding: 0.8em 1em;
+  border-radius: 6px;
+  overflow: auto;
+  margin: 0.7em 0;
+}
+.output .preview pre code { background: none; padding: 0; font-size: 0.85em; }
+.output .preview blockquote {
+  margin: 0.7em 0;
+  padding-left: 0.9em;
+  border-left: 3px solid var(--border);
+  opacity: 0.85;
+}
+.output .preview hr { border: none; border-top: 1px solid var(--border); margin: 1.2em 0; }
+.output .preview img { max-width: 100%; }
+.output .preview table { border-collapse: collapse; margin: 0.7em 0; }
+.output .preview th,
+.output .preview td { border: 1px solid var(--border); padding: 0.3em 0.6em; }
+.output .preview th { background: color-mix(in srgb, var(--fg) 8%, transparent); }
