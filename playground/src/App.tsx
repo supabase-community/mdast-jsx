@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import type { QuickJSWASMModule } from 'quickjs-emscripten'
+import type { QuickJSWASMModule } from 'quickjs-emscripten-core'
 import { FileCode, Monitor, Moon, Sun } from 'lucide-react'
+import vmModules from 'virtual:vm-modules'
 import { Editor } from './components/Editor'
 import { OutputPane } from './components/OutputPane'
 import {
@@ -11,19 +12,15 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { runTsx } from './lib/run-tsx'
+import { loadQuickJS } from './lib/quickjs'
 import { PRESETS } from './presets'
 
 type ThemePref = 'system' | 'light' | 'dark'
 
 const THEME_ICON = { system: Monitor, light: Sun, dark: Moon } as const
 
-export function App({
-  QuickJS,
-  vmModules,
-}: {
-  QuickJS: QuickJSWASMModule
-  vmModules: Record<string, string>
-}) {
+export function App() {
+  const [QuickJS, setQuickJS] = useState<QuickJSWASMModule | null>(null)
   const [preset, setPreset] = useState('0')
   const [code, setCode] = useState(PRESETS[0].code)
   const [md, setMd] = useState('')
@@ -37,7 +34,20 @@ export function App({
   const editorTheme = isDark ? 'dark-plus' : 'light-plus'
   const ThemeIcon = THEME_ICON[themePref]
 
+  // Instantiate the sandbox VM (async, once) after mount.
   useEffect(() => {
+    let active = true
+    void loadQuickJS().then((mod) => {
+      if (active) setQuickJS(mod)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  // Re-run the user's code (debounced) once the VM is ready.
+  useEffect(() => {
+    if (!QuickJS) return
     const id = setTimeout(() => {
       const result = runTsx(code, { QuickJS, vmModules })
       if (result.ok) {
@@ -48,7 +58,7 @@ export function App({
       }
     }, 300)
     return () => clearTimeout(id)
-  }, [code, QuickJS, vmModules])
+  }, [code, QuickJS])
 
   // Follow the OS theme while the preference is "system".
   useEffect(() => {
