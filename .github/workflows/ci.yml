@@ -21,11 +21,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm typecheck
+      - run: pnpm --filter mdast-jsx typecheck
 
-      - run: pnpm build
+      - run: pnpm --filter mdast-jsx build
 
-      - run: pnpm test
+      - run: pnpm --filter mdast-jsx test
 
       - run: pnpm --filter playground build
 
