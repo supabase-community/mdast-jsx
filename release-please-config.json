@@ -1,6 +1,6 @@
 {
   "packages": {
-    ".": {
+    "packages/mdast-jsx": {
       "release-type": "node",
       "changelog-path": "CHANGELOG.md",
       "include-component-in-tag": false,

@@ -51,10 +51,11 @@ jobs:
 
       - name: Build
         if: ${{ steps.release.outputs.release_created == 'true' || inputs.force_publish == true }}
-        run: pnpm build
+        run: pnpm --filter mdast-jsx build
 
       - name: Publish to npm
         if: ${{ steps.release.outputs.release_created == 'true' || inputs.force_publish == true }}
+        working-directory: packages/mdast-jsx
         run: |
           set -euo pipefail
           VERSION=$(node -p "require('./package.json').version")

@@ -25,11 +25,11 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build                       # lib -> dist/ (playground reads it)
+      - run: pnpm --filter mdast-jsx build      # lib -> dist/ (playground reads it)
       - run: pnpm --filter playground build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: playground/dist
+          path: apps/playground/dist
 
   deploy:
     needs: build
